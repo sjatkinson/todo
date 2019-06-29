@@ -1,0 +1,3 @@
+#!/bin/sh
+# TODO: support alternate source and target
+ln -s $HOME/src/todo/bin/todo $HOME/bin/todo

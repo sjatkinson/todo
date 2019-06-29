@@ -1,0 +1,68 @@
+#!/bin/sh
+
+usage() {
+    echo "todo - a tool to display todo lists"
+    echo ""
+    echo "Usage:"
+    echo "     todo -[hlsecd] [arg]"
+    echo "         -h display this help screen"
+    echo "         -f [list] full display"
+    echo "         -e [list] edits the todo list"
+    echo "         -m [list] performs automated maintenence of the list"l
+}
+
+todos_home=$HOME/doc/todos
+display_opt=compact
+cmd=display
+while getopts ":hlsem" opt; do
+    case ${opt} in
+        h ) cmd=help
+            ;;
+        e ) cmd=edit
+            ;;
+        m ) cmd=maintenence
+            ;;
+        \? )
+            echo "Invalid option: $OPTARG" 1>&2
+            usage
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND -1))
+
+if [ $1 ] ; then
+    kind=$1
+else
+    kind=current
+fi
+
+todo_file=$todos_home"/"$kind".todos"
+if [ ! -f $todo_file ] ; then
+    if [ !  $cmd = "edit" ] ; then
+        echo "$1 does not exist."
+        echo "Run '$ todo -e $1' to create and edit it."
+        exit -1
+    fi
+fi
+
+case ${cmd} in
+    help )
+        usage
+        ;;
+    edit )
+        touch $todo_file
+        $EDITOR $todo_file
+        ;;
+    display )
+        cat $todo_file
+        ;;
+    maintenence )
+        echo "Not implemented yet"
+        # TODO: run delete on all files
+        # TODO: run done command
+        # TODO: find [kind] commands to move items to other files
+        # TODO: can we do this in shell, or should we use awk or python
+        exit -2
+        ;;
+esac
