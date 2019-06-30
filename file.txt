@@ -1,0 +1,4 @@
+[done] * check in intial todo script
+[done] * check in intial todo script
+[now] * check in intial todo script
+[later] * check in intial todo script
