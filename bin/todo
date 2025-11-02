@@ -10,7 +10,8 @@ usage() {
     echo "         -e [list] edits the todo list"
 }
 
-todos_home=$HOME/doc/todos
+DATA_HOME="${XDG_DATA_HOME:=~/.local/share}/todos"
+mkdir -p $DATA_HOME
 display_opt=compact
 cmd=display
 while getopts ":hlsem" opt; do
@@ -34,7 +35,7 @@ else
     kind=current
 fi
 
-todo_file=$todos_home"/"$kind".todos"
+todo_file=$DATA_HOME"/"$kind".todos"
 if [ ! -f $todo_file ] ; then
     if [ "$cmd" = "display" ] ; then
         echo "$1 does not exist."
