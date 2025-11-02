@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+set -e 
+INSTALL_DIR="${XDG_BIN_HOME:-$HOME/.local/bin}"
+SCRIPT="$0"
+if [ -L "$SCRIPT" ] ; then
+    SCRIPT="$(readline "$SCRIPT")"
+fi
+SCRIPT_DIR="$(cd "$(dirname "$SCRIPT")" && pwd)"
+SRC=$SCRIPT_DIR/bin/todo
+mkdir -p $INSTALL_DIR
+set -x
+ln -sf "$SRC" "$INSTALL_DIR/todo"
